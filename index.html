@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI DVFS Power Analysis</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f0f4f8;
+    }
+    h2 {
+      color: #222;
+      text-align: center;
+    }
+    .chart-container {
+      width: 90%;
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Voltage vs Frequency</h2>
+  <div class="chart-container">
+    <canvas id="voltageFreqChart"></canvas>
+  </div>
+
+  <h2>Power Efficiency: With vs Without AI DVFS</h2>
+  <div class="chart-container">
+    <canvas id="efficiencyChart"></canvas>
+  </div>
+
+  <script>
+    // Graph 1: Voltage vs Frequency
+    const freqLabels = ['1GHz', '2GHz', '3GHz', '4GHz', '5GHz', '6GHz'];
+    const voltageData = [0.9, 1.0, 1.1, 1.15, 1.25, 1.3];
+
+    new Chart(document.getElementById('voltageFreqChart'), {
+      type: 'line',
+      data: {
+        labels: freqLabels,
+        datasets: [{
+          label: 'Voltage (V)',
+          data: voltageData,
+          borderColor: 'blue',
+          backgroundColor: 'rgba(0, 0, 255, 0.1)',
+          fill: true,
+          tension: 0.4
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: false,
+            title: { display: true, text: 'Voltage (V)' }
+          },
+          x: {
+            title: { display: true, text: 'Frequency' }
+          }
+        }
+      }
+    });
+
+    // Graph 2: Power Efficiency with vs without AI DVFS
+    const workloadLabels = ['10%', '30%', '50%', '70%', '90%'];
+    const powerWithoutAI = [50, 70, 90, 110, 130];
+    const powerWithAI = [45, 60, 75, 85, 95];
+
+    new Chart(document.getElementById('efficiencyChart'), {
+      type: 'bar',
+      data: {
+        labels: workloadLabels,
+        datasets: [
+          {
+            label: 'Without AI DVFS',
+            data: powerWithoutAI,
+            backgroundColor: 'rgba(255, 99, 132, 0.6)'
+          },
+          {
+            label: 'With AI DVFS',
+            data: powerWithAI,
+            backgroundColor: 'rgba(75, 192, 192, 0.6)'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: 'Power (W)' }
+          },
+          x: {
+            title: { display: true, text: 'Workload (%)' }
+          }
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>
